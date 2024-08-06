@@ -127,6 +127,7 @@ describe('Hacker Stories', () => {
         .should('be.visible')
     })
 
+
     context('Last searches', () => {
       it('searches via the last searched term', () => {
         cy.get('#search')
@@ -167,6 +168,7 @@ describe('Hacker Stories', () => {
         cy.get('.last-searches button')
           .should('have.length', 5)
       })
+      
     })
   })
 })

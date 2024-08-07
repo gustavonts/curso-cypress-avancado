@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "npx standard",
     "lint:fix": "npx standard --fix",
-    "test": "cypress run",
+    "test": "cypress run --reporter nyan",
     "cy:open": "cypress open"
   },
   "standard": {
@@ -35,6 +35,7 @@
     "cypress": "^6.6.0",
     "cypress-localstorage-commands": "^1.4.1",
     "faker": "^5.4.0",
-    "standardjs": "^1.0.0-alpha"
+    "standardjs": "^1.0.0-alpha",
+    "chai": "^4.3.4"
   }
 }

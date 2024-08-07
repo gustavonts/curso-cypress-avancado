@@ -31,8 +31,8 @@ describe('Hacker Stories', () => {
       cy.get('.item').should('have.length', 20)
 
       cy.contains('More')
-      .should('be.visible')
-      .click()
+        .should('be.visible')
+        .click()
 
       cy.wait('@getNextStories')
 
@@ -88,30 +88,27 @@ describe('Hacker Stories', () => {
       })
 
       context('List of stories', () => {
-        const stories = require ('../fixtures/stories.json')
+        const stories = require('../fixtures/stories.json')
         it('shows the right data for all rendered stories', () => {
-          
+          cy.get('.item')
+            .first()
+            .should('be.visible')
+            .and('contain', stories.hits[0].title)
+            .and('contain', stories.hits[0].author)
+            .and('contain', stories.hits[0].num_comments)
+            .and('contain', stories.hits[0].points)
+          cy.get(`.item a:contains(${stories.hits[0].title})`)
+            .should('have.attr', 'href', stories.hits[0].url)
 
-        cy.get('.item')
-          .first()
-          .should('be.visible')
-          .and('contain', stories.hits[0].title)
-          .and('contain', stories.hits[0].author)
-          .and('contain', stories.hits[0].num_comments)
-          .and('contain', stories.hits[0].points)
-        cy.get(`.item a:contains(${stories.hits[0].title})`)
-          .should('have.attr', 'href', stories.hits[0].url)
-
-        cy.get('.item')
-          .last()
-          .should('be.visible')
-          .and('contain', stories.hits[1].title)
-          .and('contain', stories.hits[1].author)
-          .and('contain', stories.hits[1].num_comments)
-          .and('contain', stories.hits[1].points)
-        cy.get(`.item a:contains(${stories.hits[1].title})`)
-          .should('have.attr', 'href', stories.hits[1].url)
-          
+          cy.get('.item')
+            .last()
+            .should('be.visible')
+            .and('contain', stories.hits[1].title)
+            .and('contain', stories.hits[1].author)
+            .and('contain', stories.hits[1].num_comments)
+            .and('contain', stories.hits[1].points)
+          cy.get(`.item a:contains(${stories.hits[1].title})`)
+            .should('have.attr', 'href', stories.hits[1].url)
         })
 
         it('shows one less story after dimissing the first story', () => {
@@ -129,14 +126,14 @@ describe('Hacker Stories', () => {
               .as('titleHeader')
               .should('be.visible')
               .click()
-            
+
             cy.get('.item')
               .first()
               .should('be.visible')
               .and('contain', stories.hits[0].title)
-              cy.get(`.item a:contains(${stories.hits[0].title})`)
+            cy.get(`.item a:contains(${stories.hits[0].title})`)
               .should('have.attr', 'href', stories.hits[0].url)
-            
+
             cy.get('@titleHeader')
               .click()
 
@@ -144,9 +141,8 @@ describe('Hacker Stories', () => {
               .first()
               .should('be.visible')
               .and('contain', stories.hits[1].title)
-              cy.get(`.item a:contains(${stories.hits[1].title})`)
+            cy.get(`.item a:contains(${stories.hits[1].title})`)
               .should('have.attr', 'href', stories.hits[1].url)
-
           })
 
           it('orders by author', () => {
@@ -154,12 +150,12 @@ describe('Hacker Stories', () => {
               .as('authorHeader')
               .should('be.visible')
               .click()
-            
+
             cy.get('.item')
               .first()
               .should('be.visible')
               .and('contain', stories.hits[0].author)
-            
+
             cy.get('@authorHeader')
               .click()
 
@@ -174,12 +170,12 @@ describe('Hacker Stories', () => {
               .as('commentsHeader')
               .should('be.visible')
               .click()
-            
+
             cy.get('.item')
               .first()
               .should('be.visible')
               .and('contain', stories.hits[1].num_comments)
-            
+
             cy.get('@commentsHeader')
               .click()
 
@@ -187,7 +183,6 @@ describe('Hacker Stories', () => {
               .first()
               .should('be.visible')
               .and('contain', stories.hits[0].num_comments)
-
           })
 
           it('orders by points', () => {
@@ -195,12 +190,12 @@ describe('Hacker Stories', () => {
               .as('pointsHeader')
               .should('be.visible')
               .click()
-            
+
             cy.get('.item')
               .first()
               .should('be.visible')
               .and('contain', stories.hits[1].points)
-            
+
             cy.get('@pointsHeader')
               .click()
 
@@ -208,7 +203,6 @@ describe('Hacker Stories', () => {
               .first()
               .should('be.visible')
               .and('contain', stories.hits[0].points)
-
           })
         })
       })
@@ -228,8 +222,8 @@ describe('Hacker Stories', () => {
           { fixture: 'stories' }
         ).as('getStories')
 
-          cy.visit('/')
-          cy.wait('@getEmptyStories')
+        cy.visit('/')
+        cy.wait('@getEmptyStories')
 
         cy.get('#search')
           .should('be.visible')
@@ -274,7 +268,7 @@ describe('Hacker Stories', () => {
           cy.intercept(
             'GET',
             '**/search**',
-            {fixture: 'empty'}
+            { fixture: 'empty' }
           ).as('getRandonStories')
 
           Cypress._.times(6, () => {

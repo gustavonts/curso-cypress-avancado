@@ -64,6 +64,17 @@ describe('Hacker Stories', () => {
 
   context('Mocking th API', () => {
     context('Footer and list of stories', () => {
+      beforeEach(() => {
+        cy.intercept(
+          'GET',
+          `**/search?query=${initialTerm}&page=0`,
+          { fixture: 'stories' }
+        ).as('getStories')
+
+        cy.visit('/')
+        cy.wait('@getStories')
+      })
+
       it('shows the footer', () => {
         cy.get('footer')
           .should('be.visible')
@@ -101,17 +112,6 @@ describe('Hacker Stories', () => {
           it('orders by points', () => {})
         })
       })
-    })
-
-    beforeEach(() => {
-      cy.intercept(
-        'GET',
-        `**/search?query=${initialTerm}&page=0`,
-        { fixture: 'stories' }
-      ).as('getStories')
-
-      cy.visit('/')
-      cy.wait('@getStories')
     })
 
     context('Search', () => {
